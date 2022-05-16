@@ -10,6 +10,7 @@ pygame.display.set_caption("First Game")
 clock = pygame.time.Clock()
 width = 800
 height = 600
+floor_height = 100
 
 RIGHT = 1
 LEFT = 2
@@ -37,14 +38,20 @@ class Player:
             self.y += step
         elif direction == RIGHT:
             self.x += step
-        if self.x <= 0 or self.y <= 0 or self.x >= width or self.y >= height:
+        if self.x < 0 or self.y < 0 or self.x+self.width > width or self.y+self.height > height:
             self.x, self.y = self.old_coords
+            self.x += self.width
+            self.y += self.height
+        if self.y+self.height > 500:
+            self.y = 500-self.height
     def gravity(self, speed: float):
-        if self.y < 500:
+        if self.y+self.height < 500:
             self.move(DOWN, False, speed)
     def draw(self):
         screen.blit(self.sprite, (self.x, self.y))
     def update(self):
+        if self.y+player.height > 500:
+            self.y = 500-player.height
         self.hitbox = (self.x, self.y, self.width, self.height)
     
         
@@ -104,7 +111,7 @@ while True:
     pressed = pygame.key.get_pressed()
     if pressed[pygame.K_CAPSLOCK] or pressed[pygame.K_LSHIFT]:
         sprint = True
-    if pressed[pygame.K_w] or pressed[pygame.K_UP] or pressed[pygame.K_SPACE] or player.y < 500:
+    if pressed[pygame.K_w] or pressed[pygame.K_UP] or pressed[pygame.K_SPACE]:# or player.y+player.height > 500:
         player.move(UP, sprint, 10.0)
     if pressed[pygame.K_a] or pressed[pygame.K_LEFT]:
         player.move(LEFT, sprint, 1.0)
@@ -115,6 +122,7 @@ while True:
     
     player.update()
     player.draw()
+    print(str(player.x) + ", " + str(player.y))
 
     pygame.display.update()
     clock.tick(60)
