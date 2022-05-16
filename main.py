@@ -21,9 +21,12 @@ class Player:
         self.x = coords[0]
         self.y = coords[1]
         self.width, self.height = self.size = size
-        surface = pygame.Surface(size)
+        # self.surface = pygame.Surface(size)
+        self.hitbox = (self.x, self.y, self.width, self.height)
+        self.sprite = pygame.image.load('sprites/ball_sprite.png')
         
     def move(self, direction: int, sprint: bool, step: float):
+        self.old_coords = (self.x, self.y)
         if sprint == True:
             step *= 2
         if direction == UP:
@@ -34,11 +37,15 @@ class Player:
             self.y += step
         elif direction == RIGHT:
             self.x += step
+        if self.x <= 0 or self.y <= 0 or self.x >= width or self.y >= height:
+            self.x, self.y = self.old_coords
     def gravity(self, speed: float):
         if self.y < 500:
             self.move(DOWN, False, speed)
     def draw(self):
-        pygame.draw.circle(screen, colors.BLUE, (self.x, self.y), 20)
+        screen.blit(self.sprite, (self.x, self.y))
+    def update(self):
+        self.hitbox = (self.x, self.y, self.width, self.height)
     
         
             
@@ -65,9 +72,9 @@ class Colors:
 
 
 
-player = Player((0, 0))
+player = Player((width/2, 400), (49, 49))
 colors = Colors
-acceleration = 2.0
+acceleration = 0.2
 velocity = 0.0
 speed = 0.0
 
@@ -106,6 +113,7 @@ while True:
     if pressed[pygame.K_d] or pressed[pygame.K_RIGHT]:
         player.move(RIGHT, sprint, 1.0)
     
+    player.update()
     player.draw()
 
     pygame.display.update()
