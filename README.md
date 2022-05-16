@@ -2,4 +2,5 @@
 first python game, made using pygame
 
 I'm trying to make a game in python for the first time!
-Forgive andy bugs in my code
+
+Forgive any bugs in my code
