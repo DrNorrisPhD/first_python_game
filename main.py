@@ -10,7 +10,7 @@ pygame.display.set_caption("First Game")
 clock = pygame.time.Clock()
 width = 800
 height = 600
-floor_height = 100
+floor = 500
 
 RIGHT = 1
 LEFT = 2
@@ -40,18 +40,18 @@ class Player:
             self.x += step
         if self.x < 0 or self.y < 0 or self.x+self.width > width or self.y+self.height > height:
             self.x, self.y = self.old_coords
-            self.x += self.width
-            self.y += self.height
-        if self.y+self.height > 500:
-            self.y = 500-self.height
+            # self.x -= self.width
+            # self.y -= self.height
+        if self.y+self.height > floor:
+            self.y = floor-self.height
     def gravity(self, speed: float):
-        if self.y+self.height < 500:
+        if self.y+self.height < floor:
             self.move(DOWN, False, speed)
     def draw(self):
         screen.blit(self.sprite, (self.x, self.y))
     def update(self):
-        if self.y+player.height > 500:
-            self.y = 500-player.height
+        if self.y+player.height > floor:
+            self.y = floor-player.height
         self.hitbox = (self.x, self.y, self.width, self.height)
     
         
@@ -81,14 +81,14 @@ class Colors:
 
 player = Player((width/2, 400), (49, 49))
 colors = Colors
-acceleration = 0.2
+acceleration = 0.15
 velocity = 0.0
 speed = 0.0
 
 while True:
     width, height = size = pygame.display.get_surface().get_size()
-    if player.y > 500:
-        player.y = 500
+    if player.y > floor:
+        player.y = floor
     screen.fill(colors.FUCHSIA)
     
     for event in pygame.event.get():
@@ -100,8 +100,10 @@ while True:
     
     player.gravity(speed)
     velocity += acceleration
+    
     speed += velocity
-    if player.y >= 500:
+    print(str(velocity) + ", " + str(acceleration) + ", " + str(speed))
+    if player.y+player.height >= floor:
         speed = 0.0
         velocity = 0.0
     sprint = False
@@ -111,14 +113,14 @@ while True:
     pressed = pygame.key.get_pressed()
     if pressed[pygame.K_CAPSLOCK] or pressed[pygame.K_LSHIFT]:
         sprint = True
-    if pressed[pygame.K_w] or pressed[pygame.K_UP] or pressed[pygame.K_SPACE]:# or player.y+player.height > 500:
+    if pressed[pygame.K_w] or pressed[pygame.K_UP] or pressed[pygame.K_SPACE]:# or player.y+player.height > floor:
         player.move(UP, sprint, 10.0)
     if pressed[pygame.K_a] or pressed[pygame.K_LEFT]:
-        player.move(LEFT, sprint, 1.0)
+        player.move(LEFT, sprint, 3.0)
     if pressed[pygame.K_s] or pressed[pygame.K_DOWN]:
-        player.move(DOWN, sprint, 1.0)
+        player.move(DOWN, sprint, 3.0)
     if pressed[pygame.K_d] or pressed[pygame.K_RIGHT]:
-        player.move(RIGHT, sprint, 1.0)
+        player.move(RIGHT, sprint, 3.0)
     
     player.update()
     player.draw()
