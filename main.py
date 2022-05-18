@@ -65,6 +65,8 @@ class Enemy:
 class Platform:
     def __init__(self, coords, size):
         self.x = coords[0]
+        self.y = coords[1]
+        self.size = size
 
 
 
@@ -100,9 +102,11 @@ while True:
     
     player.gravity(speed)
     velocity += acceleration
-    
     speed += velocity
+    
+    # Log the player's speed, acceleration and velocity to the console
     print(str(velocity) + ", " + str(acceleration) + ", " + str(speed))
+    
     if player.y+player.height >= floor:
         speed = 0.0
         velocity = 0.0
@@ -122,8 +126,12 @@ while True:
     if pressed[pygame.K_d] or pressed[pygame.K_RIGHT]:
         player.move(RIGHT, sprint, 3.0)
     
+    # Update the scene
+     
     player.update()
     player.draw()
+    
+    # Log the player's X and Y to the console
     print(str(player.x) + ", " + str(player.y))
 
     pygame.display.update()
