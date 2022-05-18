@@ -111,10 +111,10 @@ while True:
     # Check if movement keys are pressed
     
     pressed = pygame.key.get_pressed()
+    if pressed[pygame.K_w] or pressed[pygame.K_UP] or pressed[pygame.K_SPACE] or player.y+player.height < floor:# or player.y+player.height > floor:
+        player.move(UP, sprint, 20.0)
     if pressed[pygame.K_CAPSLOCK] or pressed[pygame.K_LSHIFT]:
         sprint = True
-    if pressed[pygame.K_w] or pressed[pygame.K_UP] or pressed[pygame.K_SPACE]:# or player.y+player.height > floor:
-        player.move(UP, sprint, 10.0)
     if pressed[pygame.K_a] or pressed[pygame.K_LEFT]:
         player.move(LEFT, sprint, 3.0)
     if pressed[pygame.K_s] or pressed[pygame.K_DOWN]:
