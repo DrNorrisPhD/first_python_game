@@ -78,6 +78,7 @@ class Colors:
     WHITE = (255, 255, 255)
     FUCHSIA = (246, 29, 102)
     YELLOW = (255, 255, 0)
+    SKY_BLUE = (0, 116, 220)
 
 
 
@@ -91,7 +92,7 @@ while True:
     width, height = size = pygame.display.get_surface().get_size()
     if player.y > floor:
         player.y = floor
-    screen.fill(colors.FUCHSIA)
+    screen.fill(colors.SKY_BLUE)
     
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
@@ -121,8 +122,8 @@ while True:
         sprint = True
     if pressed[pygame.K_a] or pressed[pygame.K_LEFT]:
         player.move(LEFT, sprint, 3.0)
-    if pressed[pygame.K_s] or pressed[pygame.K_DOWN]:
-        player.move(DOWN, sprint, 3.0)
+    # if pressed[pygame.K_s] or pressed[pygame.K_DOWN]:
+        # player.move(DOWN, sprint, 3.0)
     if pressed[pygame.K_d] or pressed[pygame.K_RIGHT]:
         player.move(RIGHT, sprint, 3.0)
     
